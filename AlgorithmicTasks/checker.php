@@ -9,8 +9,11 @@
         
         $result = solve($data);
 
-        echo "{$Tasks[$i]}: ";
+        echo "{$Tasks[$i]}:";
+
         $ans = file_get_contents($Answers[$i]);
+        $ans = trim(str_replace("\r\n", "\n", file_get_contents($Answers[$i])));
+        
         if($ans == $result) {
             echo("OK\n");
         } else {
