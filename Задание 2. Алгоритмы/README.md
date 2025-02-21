@@ -1,0 +1,1 @@
+Пример запуска: php test-runner.php TaskA/index.php Tests/A/
