@@ -1,33 +1,22 @@
 
-document.getElementById("feedbackForm").addEventListener("submit", function (event) {
+document.getElementById("feedback-form").addEventListener("submit", function (event) {
     event.preventDefault();
-
-    document.querySelectorAll(".form-line input, .form-text textarea").forEach(input => {
-        input.style.border = "";
-    });
 
     let name = document.getElementById("name").value.trim();
     let email = document.getElementById("email").value.trim();
     let phone = document.getElementById("phone").value.trim();
     let comment = document.getElementById("comment").value.trim();
 
+    console.log(name);
+    console.log(phone);
+
     let valid = true;
-    if (name === "") {
-        document.getElementById("name").style.border = "2px solid red";
-        valid = false;
-    }
+
     if (!/^\S+@\S+\.\S+$/.test(email)) {
         document.getElementById("email").style.border = "2px solid red";
         valid = false;
     }
-    if (!/^\+?\d{10,15}$/.test(phone)) {
-        document.getElementById("phone").style.border = "2px solid red";
-        valid = false;
-    }
-    if (comment === "") {
-        document.getElementById("comment").style.border = "2px solid red";
-        valid = false;
-    }
+
     if (!valid) return;
 
     fetch("form.php", {
@@ -53,4 +42,31 @@ document.getElementById("feedbackForm").addEventListener("submit", function (eve
             alert(result.message);
         }
     })
+});
+
+document.getElementById("phone").addEventListener("input", function () {
+    let value = this.value.replace(/\D/g, "");
+
+    if (value.startsWith("8")) {
+        value = "7" + value.slice(1);
+    } else if (!value.startsWith("7")) {
+        value = "7" + value;
+    }
+
+    value = value.slice(0, 11);
+
+    let formattedNumber = `+7`;
+    if (value.length > 1) formattedNumber += ` (${value.slice(1, 4)}`;
+    if (value.length > 4) formattedNumber += `) ${value.slice(4, 7)}`;
+    if (value.length > 7) formattedNumber += `-${value.slice(7, 9)}`;
+    if (value.length > 9) formattedNumber += `-${value.slice(9, 11)}`;
+
+    this.value = formattedNumber;
+});
+
+document.getElementById("name").addEventListener("input", function () {
+    this.value = this.value.replace(/[^a-zA-Zа-яА-ЯёЁ\s]/g, "");
+    if (this.value.length > 20) {
+        this.value = this.value.slice(0, 20);
+    }
 });
