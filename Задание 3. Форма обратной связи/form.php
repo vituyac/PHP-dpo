@@ -3,10 +3,10 @@
     require 'db/db.php';
 
     function send_mail($to, $subject, $message) : void {
-        $smtp_server = "smtp.yandex.ru";
-        $smtp_port = 465;
-        $smtp_user = "kisterev-volgait24@yandex.ru";
-        $smtp_pass = "elwyantciueysifv";
+        $smtp_server = getenv("SMTP_SERVER");
+        $smtp_port = getenv("SMTP_PORT");
+        $smtp_user = getenv("SMTP_USER");
+        $smtp_pass = getenv("SMTP_PASS");
         
         $headers = "From: kisterev-volgait24@yandex.ru\r\n";
         $headers .= "Reply-To: skisterev78@mail.ru\r\n";
