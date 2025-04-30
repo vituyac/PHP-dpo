@@ -17,7 +17,7 @@
         $result = solve($data);
 
         // Выводим имя файла с задачей
-        echo "{$Tasks[$i]}:";
+        echo "{$Tasks[$i]}: ";
 
         // Читаем содержимое соответствующего файла с правильным ответом
         $ans = file_get_contents($Answers[$i]);
