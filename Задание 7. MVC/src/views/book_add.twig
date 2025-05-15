@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить книгу</title>
+    <link rel="stylesheet" href="/css/book_form.css">
+</head>
+<body>
+    <div class="form-container">
+        <h2>Добавить книгу</h2>
+        <form action="/books/add" method="POST" enctype="multipart/form-data">
+            <label for="title">Название:</label>
+            <input type="text" name="title" id="title" required>
+
+            <label for="author">Автор:</label>
+            <input type="text" name="author" id="author" required>
+
+            <label for="read_date">Дата прочтения:</label>
+            <input type="date" name="read_date" id="read_date" required>
+
+            <label for="cover">Обложка:</label>
+            <input type="file" name="cover" id="cover" accept="image/*" required>
+
+            <label for="book">Книга:</label>
+            <input type="file" name="book" id="book" accept=".pdf,.epub,.txt,.doc,.docx" required>
+
+            <label>
+                <input type="checkbox" name="download"> Разрешить скачивание
+            </label>
+
+            <button type="submit">Сохранить</button>
+        </form>
+
+        <p><a href="/">Назад к списку</a></p>
+    </div>
+</body>
+</html>

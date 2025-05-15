@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактировать книгу</title>
+    <link rel="stylesheet" href="/css/book_form.css">
+</head>
+<body>
+    <div class="form-container">
+        <h2>Редактировать книгу</h2>
+        <form action="/books/edit/{{ book.id }}" method="POST" enctype="multipart/form-data">
+            <label for="title">Название:</label>
+            <input type="text" name="title" id="title" value="{{ book.title }}" required>
+
+            <label for="author">Автор:</label>
+            <input type="text" name="author" id="author" value="{{ book.author }}" required>
+
+            <label for="read_date">Дата прочтения:</label>
+            <input type="date" name="read_date" id="read_date" value="{{ book.read_date|date('Y-m-d') }}" required>
+
+            {% if book.cover %}
+                <p class="ppp">Текущая обложка:
+                    <a href="/{{ book.cover }}" target="_blank">
+                        {{ book.cover | split('/') | last }}
+                    </a>
+                </p>
+                <label><input type="checkbox" name="delete_cover"> Удалить обложку</label>
+            {% else %}
+                <p class="ppp"><em>Обложка не установлена</em></p>
+            {% endif %}
+            <label for="cover">Заменить обложку:</label>
+            <input type="file" name="cover" id="cover" accept="image/*">
+
+            {% if book.book %}
+                <p class="ppp">Текущий файл книги:
+                    <a href="/{{ book.book }}" target="_blank">
+                        {{ book.book | split('/') | last }}
+                    </a>
+                </p>
+                <label><input type="checkbox" name="delete_book"> Удалить файл книги</label>
+            {% else %}
+                <p class="ppp"><em>Файл книги не загружен</em></p>
+            {% endif %}
+            <label for="book">Заменить файл книги:</label>
+            <input type="file" name="book" id="book" accept=".pdf,.epub,.txt,.doc,.docx">
+
+            <label>
+                <input type="checkbox" name="download" {% if book.download %}checked{% endif %}> Разрешить скачивание
+            </label>
+
+            <button type="submit">Сохранить изменения</button>
+        </form>
+
+        <p><a href="/">Назад к списку</a></p>
+    </div>
+</body>
+</html>

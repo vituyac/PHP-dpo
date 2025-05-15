@@ -2,7 +2,7 @@
 
     function normalize_xml($xmlStr) {
         $xmlStr = trim($xmlStr);
-        if ($xmlStr === '') return '';  // Возвращаем пустую строку без ошибки
+        if ($xmlStr === '') return '';
 
         $doc = new DOMDocument();
         $doc->preserveWhiteSpace = false;
@@ -11,47 +11,31 @@
         return trim($doc->saveXML());
     }
 
-    // Подключаем файл с функцией solve($data1, $data2)
     include $argv[1];
 
-    // Путь к директории с тестами
-    $directory = rtrim($argv[2], '/') . '/';
+    $directory = $argv[2];
 
     // Получаем список всех файлов вида *_products.xml
-    $productsFiles = glob($directory . '*_products.xml');
+    $files = glob($directory . '*_products.xml');
 
     // Сортировка по имени файла (чтобы 001, 002 шли правильно)
-    sort($productsFiles);
+    sort($files);
 
     // Проходим по всем найденным product-файлам
-    foreach ($productsFiles as $productFile) {
-        // Определим "ключ" теста, например 001
-        $testId = basename($productFile, '_products.xml');
+    foreach ($files as $file) {
+        // Определим номер теста
+        $test = basename($file, '_products.xml');
 
         // Составляем имена соответствующих файлов
-        $sectionsFile = $directory . $testId . '_sections.xml';
-        $resultFile = $directory . $testId . '_result.xml';
-
-        // Проверяем, что все три файла существуют
-        if (!file_exists($sectionsFile) || !file_exists($resultFile)) {
-            echo "$testId: MISSING FILE(S)\n";
-            continue;
-        }
+        $sectionsFile = $directory . $test . '_sections.xml';
+        $resultFile = $directory . $test . '_result.xml';
 
         // Загружаем содержимое файлов
-        $data1 = file_get_contents($productFile);
+        $data1 = file_get_contents($file);
         $data2 = file_get_contents($sectionsFile);
         $expected = normalize_xml(file_get_contents($resultFile));
         $actual = normalize_xml(solve($data1, $data2));
 
-        // Сравнение результата
-        // echo $actual;
-        // echo $expected;
-        if ($actual != $expected) {
-            echo "мой ответ: $actual";
-            echo "\n\n\n";
-            echo "какой должен быть: $expected";
-        }
-        echo "$testId: " . ($actual === $expected ? "OK" : "FAIL") . "\n";
+        echo "$test: " . ($actual === $expected ? "OK" : "FAIL") . "\n";
     }
 ?>
