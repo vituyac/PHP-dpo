@@ -6,14 +6,15 @@
     // контекст - может отсутствовать, если присутствует то это непустая строка из строчных
     // латинских букв.
 
-    $data = trim(file_get_contents('Data/A.txt'));
-    $result = "";
-    $pattern = "/(^https?)(.*?)(ru|com)(.*)/";
+    $data = trim(file_get_contents('Data/A.txt')); // читаем файл и убираем лишние пробелы
+    $result = ""; // пустая строка для результата
+    $pattern = "/(^https?)(.*?)(ru|com)(.*)/"; // шаблон для разбора URL
 
     if (preg_match($pattern, $data, $matches)) {
+        // собираем URL из частей, если совпало с шаблоном
         $result = "$matches[1]://" . "$matches[2]." . "$matches[3]/" . "$matches[4]";
     }
 
-    echo($result);
+    echo($result); // выводим результат
 
 ?>
